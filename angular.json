@@ -1,0 +1,138 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "jest-intellij-demo": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/jest-intellij-demo",
+      "sourceRoot": "apps/jest-intellij-demo/src",
+      "prefix": "jest-intellij-demo",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/jest-intellij-demo",
+            "index": "apps/jest-intellij-demo/src/index.html",
+            "main": "apps/jest-intellij-demo/src/main.ts",
+            "polyfills": "apps/jest-intellij-demo/src/polyfills.ts",
+            "tsConfig": "apps/jest-intellij-demo/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "apps/jest-intellij-demo/src/favicon.ico",
+              "apps/jest-intellij-demo/src/assets"
+            ],
+            "styles": ["apps/jest-intellij-demo/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/jest-intellij-demo/src/environments/environment.ts",
+                  "with": "apps/jest-intellij-demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "jest-intellij-demo:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "jest-intellij-demo:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "jest-intellij-demo:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/jest-intellij-demo/tsconfig.app.json",
+              "apps/jest-intellij-demo/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/jest-intellij-demo/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/jest-intellij-demo/jest.config.js",
+            "tsConfig": "apps/jest-intellij-demo/tsconfig.spec.json",
+            "setupFile": "apps/jest-intellij-demo/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "jest-intellij-demo-e2e": {
+      "root": "apps/jest-intellij-demo-e2e",
+      "sourceRoot": "apps/jest-intellij-demo-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/jest-intellij-demo-e2e/cypress.json",
+            "tsConfig": "apps/jest-intellij-demo-e2e/tsconfig.e2e.json",
+            "devServerTarget": "jest-intellij-demo:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "jest-intellij-demo:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/jest-intellij-demo-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**", "!apps/jest-intellij-demo-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "jest-intellij-demo"
+}
